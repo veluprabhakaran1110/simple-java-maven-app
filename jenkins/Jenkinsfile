@@ -34,6 +34,7 @@ pipeline {
                             -Dsonar.java.binaries=target/classes
                         """
                     }
+                }
             }
         }
         stage('Deliver') { 
