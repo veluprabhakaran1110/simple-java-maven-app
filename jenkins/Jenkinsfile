@@ -24,11 +24,16 @@ pipeline {
         stage('Sonarqube analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        mvn -B sonar:sonar \
-                        -Dsonar.projectKey=simple-java-maven-app
-                    '''
-                }
+                    script {
+                        def scannerHome = tool 'sonarscanner'
+        
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=simple-java-maven-app \
+                            -Dsonar.sources=src/main/java \
+                            -Dsonar.java.binaries=target/classes
+                        """
+                    }
             }
         }
         stage('Deliver') { 
