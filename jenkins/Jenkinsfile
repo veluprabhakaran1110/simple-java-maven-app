@@ -21,6 +21,16 @@ pipeline {
                 }
             }
         }
+        stage('Sonarqube analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        mvn -B sonar:sonar \
+                        -Dsonar.projectKey=simple-java-maven-app
+                    '''
+                }
+            }
+        }
         stage('Deliver') { 
             steps {
                 sh './jenkins/scripts/deliver.sh' 
